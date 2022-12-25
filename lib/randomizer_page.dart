@@ -2,31 +2,30 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_foundations/random_change_notifier.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_foundations/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RandomizerPage extends StatelessWidget {
+class RandomizerPage extends ConsumerWidget {
   RandomizerPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetReference ref) {
+    final randomizer = ref.watch(randomizerProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Randomizer'),
       ),
-      body: Center(child: Consumer<RandomizerChangeNotifier>(
-        builder: (context, value, child) {
-          return Text(
-            value.generatedNumber?.toString() ?? 'Generate  number',
-            style: TextStyle(fontSize: 42),
-          );
-        },
-      )),
+      body: Center(
+        child: Text(
+          randomizer.generatedNumber?.toString() ?? 'Generate  number',
+          style: TextStyle(fontSize: 42),
+        ),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          context.read<RandomizerChangeNotifier>().generateRandomNumber();
+          context.read(randomizerProvider).generateRandomNumber();
         },
         label: Text('Generate'),
       ),
