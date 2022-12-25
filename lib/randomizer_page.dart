@@ -27,7 +27,7 @@ class _RandomizerPageState extends State<RandomizerPage> {
       ),
       body: Center(
         child: Text(
-          _generatedNumber?.toString() ?? 'Generate a number',
+          _generatedNumber?.toString() ?? 'Generate  number',
           style: TextStyle(fontSize: 42),
         ),
       ),
