@@ -1,6 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_foundations/random_change_notifier.dart';
+import 'package:provider/provider.dart';
 
 typedef IntValueSetter = void Function(int value);
+
+class RangeSelectorForm extends StatelessWidget {
+  const RangeSelectorForm({
+    Key? key,
+    required this.formKey,
+  }) : super(key: key);
+
+  final GlobalKey<FormState> formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RangeSelectorTextFormField(
+              labelText: 'Minimum',
+              intValueSetter: (value) =>
+                  context.read<RandomizerChangeNotifier>().min = value,
+            ),
+            const SizedBox(height: 12),
+            RangeSelectorTextFormField(
+              labelText: 'Maximum',
+              intValueSetter: (value) =>
+                  context.read<RandomizerChangeNotifier>().max = value,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class RangeSelectorTextFormField extends StatelessWidget {
   const RangeSelectorTextFormField({
@@ -32,42 +69,6 @@ class RangeSelectorTextFormField extends StatelessWidget {
           return null;
         }
       },
-    );
-  }
-}
-
-class RangeSelectorForm extends StatelessWidget {
-  const RangeSelectorForm({
-    Key? key,
-    required this.formKey,
-    required this.minValueSetter,
-    required this.maxValueSetter,
-  }) : super(key: key);
-
-  final GlobalKey<FormState> formKey;
-  final IntValueSetter minValueSetter;
-  final IntValueSetter maxValueSetter;
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            RangeSelectorTextFormField(
-              labelText: 'Minimum',
-              intValueSetter: minValueSetter,
-            ),
-            const SizedBox(height: 12),
-            RangeSelectorTextFormField(
-              labelText: 'Maximum',
-              intValueSetter: maxValueSetter,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
